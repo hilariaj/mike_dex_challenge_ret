@@ -1,7 +1,7 @@
 const app = require("./app");
 const connectDatabase = require("./config/database");
 const cloudinary = require("cloudinary");
-const PORT = process.env.PORT || 3099;
+const PORT = Number(process.env.PORT) || 3099;
 
 // UncaughtException Error
 process.on("uncaughtException", (err) => {
@@ -17,9 +17,17 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+/*
 const server = app.listen(PORT, () => {
   console.log(`Server running`);
 });
+*/
+
+const server = app.listen(PORT, "0.0.0.0", () => {
+  const addr = server.address();
+  console.log(`Server running on http://localhost:${addr.port}`);
+});
+
 
 // Unhandled Promise Rejection
 process.on("unhandledRejection", (err) => {

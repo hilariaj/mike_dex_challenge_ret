@@ -7,14 +7,20 @@ const router = require("./routes");
 
 const app = express();
 
+const morgan = require("morgan");
+//app.use(morgan("dev"));
+//app.use(router);
+
 // config
 if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config({ path: "backend/config/config.env" });
+  //require("dotenv").config({ path: "backend/config/config.env" });
+  require("dotenv").config({ path: path.join(__dirname, ".env") }); 
 }
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUpload());
+app.use(morgan("dev"));
 app.use(router);
 __dirname = path.resolve();
 if (process.env.NODE_ENV === "production") {
